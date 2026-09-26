@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elich — мои Fortnite клипы</title>
+    <style>
+        :root {
+            --bg-dark: #0f0f0f;
+            --bg-card: #1a1a1a;
+            --accent-red: #ff3b3b;
+            --accent-dark-red: #cc0000;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --border-red: #ff3b3b;
+            --border-dark: #333333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            line-height: 1.5;
+        }
+
+        /* Шапка с навигацией — закреплена сверху */
+        header {
+            position: sticky;
+            top: 0;
+            background: var(--bg-dark);
+            z-index: 100;
+            border-bottom: 1px solid var(--border-dark);
+            padding: 1rem 1rem 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            background: linear-gradient(90deg, #fff, var(--accent-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.3rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Навигация-вкладки */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding-bottom: 1rem;
+        }
+
+        .tab-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dark);
+            color: var(--text-main);
+            padding: 0.6rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .tab-btn.active {
+            background: var(--accent-red);
+            color: #000;
+            border-color: var(--accent-red);
+        }
+
+        /* Секции */
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+            scroll-margin-top: 140px; /* чтобы шапка не перекрывала заголовок */
+        }
+
+        section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--accent-red);
+        }
+
+        section .section-desc {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Сетка карточек-фото (рамки) */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .photo-frame {
+            background: var(--bg-card);
+            border: 2px solid var(--border-red);
+            aspect-ratio: 16/9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .photo-frame .placeholder-text {
+            opacity: 0.7;
+            margin-bottom: 0.3rem;
+        }
+
+        .photo-frame .placeholder-hint {
+            font-size: 0.75rem;
+            opacity: 0.5;
+        }
+
+        /* Сетка клипов */
+        .clips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .clip-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dark);
+            padding: 1rem;
+            border-radius: 6px;
+        }
+
+        .clip-card h3 {
+            margin-bottom: 0.5rem;
+            color: var(--accent-red);
+        }
+
+        .clip-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Видео-плейхолдер */
+        .video-placeholder {
+            width: 100%;
+            padding-top: 56.25%;
+            background: #000;
+            border: 1px solid var(--border-red);
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .video-placeholder::after {
+            content: "Место для клипа";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--text-muted);
+        }
+
+        .clip-link {
+            display: inline-block;
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .clip-link:hover {
+            background: var(--accent-red);
+            color: #000;
+        }
+
+        /* Блок "Обо мне" */
+        .about-box {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border: 1px solid var(--border-dark);
+            border-left: 4px solid var(--accent-red);
+            border-radius: 6px;
+        }
+
+        .about-box p {
+            margin-bottom: 0.5rem;
+        }
+
+        .about-box a {
+            color: var(--accent-red);
+            text-decoration: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border-dark);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Адаптив */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            .tabs { flex-direction: column; align-items: stretch; }
+            .tab-btn { text-align: center; }
+            section { scroll-margin-top: 180px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Elich</h1>
+        <p class="subtitle">Сборник моих клипов в Fortnite</p>
+        <nav class="tabs">
+            <a href="#home" class="tab-btn active">Главная</a>
+            <a href="#clips" class="tab-btn">Клипы</a>
+            <a href="#about" class="tab-btn">Обо мне</a>
+        </nav>
+    </header>
+
+    <!-- Главная -->
+    <section id="home">
+        <h2>Лучшие моменты</h2>
+        <p class="section-desc">Здесь будут самые яркие кадры из моих матчей.</p>
+        <div class="photo-grid">
+            <div class="photo-frame">
+                <span class="placeholder-text">Место для фото</span>
+                <span class="placeholder-hint">Вставьте сюда .jpg/.png</span>
+            </div>
+            <div class="photo-frame">
+                <span class="placeholder-text">Место для фото</span>
+                <span class="placeholder-hint">Вставьте сюда .jpg/.png</span>
+            </div>
+            <div class="photo-frame">
+                <span class="placeholder-text">Место для фото</span>
+                <span class="placeholder-hint">Вставьте сюда .jpg/.png</span>
+            </div>
+            <div class="photo-frame">
+                <span class="placeholder-text">Место для фото</span>
+                <span class="placeholder-hint">Вставьте сюда .jpg/.png</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Клипы -->
+    <section id="clips">
+        <h2>Мои клипы</h2>
+        <p class="section-desc">Здесь ты найдёшь мои лучшие моменты в Fortnite.</p>
+        <div class="clips-grid">
+            <div class="clip-card">
+                <h3>Эпичный трипл-килл</h3>
+                <p>Момент, когда я забрал троих подряд в финале матча.</p>
+                <div class="video-placeholder"></div>
+                <a href="#" class="clip-link">Смотреть на YouTube</a>
+            </div>
+            <div class="clip-card">
+                <h3>Невероятный эдванс</h3>
+                <p>Как я построил рампу и забрал врага с высоты.</p>
+                <div class="video-placeholder"></div>
+                <a href="#" class="clip-link">Смотреть на YouTube</a>
+            </div>
+            <div class="clip-card">
+                <h3>Победа в соло</h3>
+                <p>Последний выживший — этот момент стоил всех стараний.</p>
+                <div class="video-placeholder"></div>
+                <a href="#" class="clip-link">Смотреть на YouTube</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Обо мне -->
+    <section id="about">
+        <h2>Кто я такой</h2>
+        <p class="section-desc">Привет! Я Elich — игрок в Fortnite, который собирает и показывает свои лучшие моменты.</p>
+        <div class="about-box">
+            <p><strong>Соцсети:</strong></p>
+            <p style="margin-top: 0.5rem; color: var(--text-muted);">
+                YouTube: <a href="#">ссылка</a><br>
+                Twitch: <a href="#">ссылка</a><br>
+                Telegram: <a href="#">ссылка</a>
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2024 Elich. Все права защищены.
+    </footer>
+
+    <script>
+        // Подсветка активной вкладки при прокрутке
+        const sections = document.querySelectorAll('section');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const top = section.offsetTop - 200;
+                if (window.scrollY >= top) {
+                    current = section.getAttribute('id');
+                }
+            });
+            tabBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('href') === '#' + current) {
+                    btn.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
